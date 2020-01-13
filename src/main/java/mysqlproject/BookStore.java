@@ -45,7 +45,7 @@ public class BookStore {
     }
 
     /**
-     *
+     *  начальное меню
      */
     private void run() {
         while (running) {
