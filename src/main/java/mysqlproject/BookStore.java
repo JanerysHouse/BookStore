@@ -1,13 +1,14 @@
 package mysqlproject;
 
+import mysqlproject.models.Author;
 import mysqlproject.models.Book;
 import mysqlproject.sql.Connector;
+import mysqlproject.sql.repositories.AuthorRepository;
 import mysqlproject.sql.repositories.BookRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -89,6 +90,9 @@ public class BookStore {
         }
     }
 
+    /**
+     *
+     */
     private void showAuthorList() {
 
     }
@@ -114,7 +118,21 @@ public class BookStore {
         }
     }
 
-    private void addNewAuthor() {
+    private void addNewAuthor()  {
+
+        try {
+            System.out.println("Введите id нового автора");
+            int id = Integer.parseInt(reader.readLine());
+            System.out.println("Введите имя автора");
+            String  author = reader.readLine();
+            System.out.println("Введите дату рождения автора");
+            String birthDate = reader.readLine();
+            AuthorRepository.addNewAuthor(new Author((id, name, birthDate)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 
