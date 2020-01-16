@@ -1,4 +1,4 @@
-package mysqlproject;
+package mysqlproject.controllers;
 
 import mysqlproject.models.Author;
 import mysqlproject.models.Book;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 /**
  *  Основной класс книжного магазина
  */
-public class BookStore {
+public class BookStoreController {
 
     // константы комманд
     private static final int COMMAND_SHOW_AUTHORS = 1; // команда показать всех авторов
@@ -30,12 +30,14 @@ public class BookStore {
     private BufferedReader reader;
 
     private BookRepository bookRepository;
+    private AuthorRepository authorRepository;
 
-    public BookStore() {
+    public BookStoreController() {
         try {
             Connector connector = new Connector();
 
             bookRepository = new BookRepository(connector);
+            authorRepository = new AuthorRepository(connector);
             reader  = new BufferedReader(new InputStreamReader(System.in));
 
             run();
@@ -93,7 +95,7 @@ public class BookStore {
     /**
      *
      */
-    private void showAuthorList() {
+    private void showAuthorList() {authorRepository.getAuthorList().forEach(System.out::println);
 
     }
 
@@ -119,21 +121,15 @@ public class BookStore {
     }
 
     private void addNewAuthor()  {
-
         try {
-            System.out.println("Введите id нового автора");
-            int id = Integer.parseInt(reader.readLine());
             System.out.println("Введите имя автора");
-            String  author = reader.readLine();
+            String name = reader.readLine();
             System.out.println("Введите дату рождения автора");
             String birthDate = reader.readLine();
-            AuthorRepository.addNewAuthor(new Author((id, name, birthDate)));
+            authorRepository.addNewAuthor(new Author(name, birthDate));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     private void quit() {

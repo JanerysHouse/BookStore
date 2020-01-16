@@ -14,14 +14,10 @@ public class Author {
         this.birthDate = rs.getString("birthDate");
     }
 
-    public Author(int id, String name, String birthDate) {
-        this.id = id;
+    public Author(String name, String birthDate) {
         this.name = name;
         this.birthDate = birthDate;
     }
-
-
-
 
     public int getId() {
         return id;
@@ -35,6 +31,10 @@ public class Author {
         return birthDate;
     }
 
-    }
 
+    @Override
+    public String toString() {
+        return String.format("Имя автора %s, День рождения %s", name, birthDate);
+    }
+}
 

@@ -12,7 +12,7 @@ import java.util.List;
 public class AuthorRepository {
 
     private static final String GET_ALL_AUTHORS_QUERY = "SELECT * FROM authors ";
-    private static final String ADD_NEW_AUTHOR = "INSERT INTO authors (id, name, birthDate) values (?, ?, ?)";
+    private static final String ADD_NEW_AUTHOR = "INSERT INTO authors (name, birthDate) values (?, ?)";
 
     private Connector connector;
 
@@ -20,35 +20,29 @@ public class AuthorRepository {
         this.connector = connector;
     }
 
-    public List<Author> getAuthorlist() {
-        List<Author> authorlist = new ArrayList<>();
-
+    public List<Author> getAuthorList() {
+        List<Author> authorList = new ArrayList<>();
         try {
             PreparedStatement ps = connector.getConnection().prepareStatement(GET_ALL_AUTHORS_QUERY);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                authorlist.add(new Author(rs));
+                authorList.add(new Author(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return authorlist;
+        return authorList;
     }
-
 
     public void addNewAuthor(Author author) {
         try {
             PreparedStatement ps = connector.getConnection().prepareStatement(ADD_NEW_AUTHOR);
-            ps.setInt(1, author.getId());
-            ps.setString(2, author.getName());
-            ps.setString(3, author.getBirthDate());
+            ps.setString(1, author.getName());
+            ps.setString(2, author.getBirthDate());
             ps.execute();
             System.out.println("Автор успешно добавлен в базу данных");
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 }
